@@ -1,9 +1,9 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="flet_phone_preview",
+    name="flet_mobile_preview",
     version="1.0.0",
-    packages=find_packages(include=["flet_phone_preview", "flet_phone_preview.*"]),
+    packages=find_packages(include=["flet_mobile_preview", "flet_mobile_preview.*"]),
     description="A simple phone preview for Flet applications",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
@@ -18,6 +18,6 @@ setup(
     python_requires=">=3.6",
     install_requires=["flet"],
     package_data={
-        "flet_phone_preview": ["assets/*", "assets/*/*", "assets/*/*/*"],
+        "flet_mobile_preview": ["assets/*", "assets/*/*", "assets/*/*/*"],
     },
 )
