@@ -49,7 +49,7 @@ Contributions are welcome! Please open an issue or submit a pull request on GitH
 
 ## Author
 
-This package is developed by [Victoire243].
+This package is developed by [Victoire243](https://github.com/Victoire243).
 
 ## Acknowledgements
 

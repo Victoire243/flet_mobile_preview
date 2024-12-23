@@ -9,7 +9,7 @@ setup(
     long_description_content_type="text/markdown",
     author="Victoire Kitenge",
     author_email="yumakitenge243@gmail.com",
-    url="",
+    url="https://github.com/Victoire243/flet-phone-preview.git",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
