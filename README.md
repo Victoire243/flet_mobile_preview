@@ -1,22 +1,22 @@
 # flet-phone-preview
 
-`flet-phone-preview` is a Python package that provides a preview of an iPhone 13 interface using the Flet framework. This package allows you to simulate the appearance of an iPhone 13 on your desktop, making it easier to design and test mobile interfaces.
+`flet_phone_preview` is a Python package that provides a preview of an iPhone 13 interface using the Flet framework. This package allows you to simulate the appearance of an iPhone 13 on your desktop, making it easier to design and test mobile interfaces.
 
 ## Installation
 
 You can install the package using pip:
 
 ```bash
-pip install flet-phone-preview
+pip install flet_phone_preview
 ```
 
 ## Usage
 
-Here is an example of how to use the `flet-phone-preview` package:
+Here is an example of how to use the `flet_phone_preview` package:
 
 ```python
 import flet as ft
-from flet-phone-preview.iPhone import iPhone13
+from flet_phone_preview.iPhone import iPhone13
 
 def main(page: ft.Page):
     phone = iPhone13(page)
