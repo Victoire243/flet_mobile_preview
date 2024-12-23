@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="flet_mobile_preview",
-    version="1.0.0",
+    version="1.0.1",
     packages=find_packages(include=["flet_mobile_preview", "flet_mobile_preview.*"]),
     description="A simple phone preview for Flet applications",
     long_description=open("README.md").read(),
