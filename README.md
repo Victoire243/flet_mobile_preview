@@ -7,7 +7,7 @@
 You can install the package using pip:
 
 ```bash
-pip install flet_mobile_preview
+pip install flet-mobile-preview
 ```
 
 ## Usage

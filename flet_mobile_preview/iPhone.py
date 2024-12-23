@@ -289,7 +289,7 @@ class iPhone13:
                 self.__phone_bar(),
                 ft.TransparentPointer(
                     content=ft.Image(
-                        src="images/iphone13.png",
+                        src="flet_mobile_preview/assets/images/iphone13.png",
                         height=self.__height - 60,
                         width=self.__width,
                     ),
