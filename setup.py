@@ -18,6 +18,6 @@ setup(
     python_requires=">=3.6",
     install_requires=["flet"],
     package_data={
-        "flet-phone-preview": ["assets/*", "assets/*/*", "assets/*/*/*"],
+        "flet_phone_preview": ["assets/*", "assets/*/*", "assets/*/*/*"],
     },
 )
