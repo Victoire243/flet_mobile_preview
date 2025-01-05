@@ -26,16 +26,33 @@ class iPhone13:
         self.page.padding = 0
         self.__initialize_zoom()
 
+        # Package Assets path
+        self.__assets_src = (
+            __file__.split("\\") if __file__.__contains__("\\") else __file__.split("/")
+        )
+        self.__assets_src = "/".join(self.__assets_src[:-1]) + "/assets/"
+
         # Set window dimensions
         self.page.window.height = self.__height
         self.page.window.width = self.__width
         self.bg_color_title_bar = "blue"
         self.color_title_bar = "white"
-        self.page.fonts = {"iphone": "fonts/sf.otf"}
+        self.page.fonts = {"iphone": self.__assets_src + "fonts/sf.otf"}
         self.page.theme = ft.Theme(font_family="iphone")
 
-        # Initialize screen content
-        self.screen = ft.Pagelet(content=ft.Container())
+        # Initialize app content
+        self.body: ft.Control = ft.Container(
+            alignment=ft.alignment.center,
+            content=ft.Text(
+                value="Hello Flet devs",
+                size=18,
+                weight=ft.FontWeight.BOLD,
+            ),
+        )
+
+        # Others app Controls
+        self.appBar: ft.AppBar = None
+        self.floating_action_button: ft.FloatingActionButton = None
 
     def __initialize_zoom(self):
         """
@@ -85,7 +102,15 @@ class iPhone13:
             width=self.__width - self.__body_width,
             border_radius=ft.border_radius.only(bottom_left=20, bottom_right=20),
             top=self.__body_top,
-            content=self.screen,
+            content=ft.Pagelet(
+                content=self.body,
+                appbar=self.appBar if isinstance(self.appBar, ft.AppBar) else None,
+                floating_action_button=(
+                    self.floating_action_button
+                    if isinstance(self.floating_action_button, ft.FloatingActionButton)
+                    else None
+                ),
+            ),
             padding=ft.padding.only(
                 left=self.__body_padding_left,
                 right=self.__body_padding_right,
@@ -283,13 +308,14 @@ class iPhone13:
         Returns:
             ft.Stack: The frame stack.
         """
+
         return ft.Stack(
             controls=[
                 self.__body(),
                 self.__phone_bar(),
                 ft.TransparentPointer(
                     content=ft.Image(
-                        src="flet_mobile_preview/assets/images/iphone13.png",
+                        src=self.__assets_src + "images/iphone13.png",
                         height=self.__height - 60,
                         width=self.__width,
                     ),
