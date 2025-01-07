@@ -6,13 +6,13 @@ class iPhone13:
     A class to simulate the appearance of an iPhone 13 using the Flet framework.
     """
 
-    def __init__(self, page: ft.Page, zoom: int = 1) -> None:
+    def __init__(self, page: ft.Page, zoom: float | int = 1) -> None:
         """
         Initialize the iPhone13 class.
 
         Args:
             page (ft.Page): The Flet page object.
-            zoom (int): The zoom level (0 for small, 1 for large).
+            zoom (float | int): The zoom level (value between 0.5 and 3).
         """
         self.page = page
         self.__zoom = zoom
@@ -23,7 +23,8 @@ class iPhone13:
         self.page.window.bgcolor = "transparent"
         self.page.window.frameless = True
         self.page.window.title_bar_hidden = True
-        self.page.padding = 0
+        self.page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+        self.page.padding = ft.padding.all(0)
         self.__initialize_zoom()
 
         # Package Assets path
@@ -33,10 +34,11 @@ class iPhone13:
         self.__assets_src = "/".join(self.__assets_src[:-1]) + "/assets/"
 
         # Set window dimensions
-        self.page.window.height = self.__height
-        self.page.window.width = self.__width
-        self.bg_color_title_bar = "blue"
-        self.color_title_bar = "white"
+        self.page.window.width = self.__width * 1.05
+        self.bg_color_title_bar: str = "blue"
+        self.color_title_bar: str = "white"
+        self.color_frame: str = "#4288B1"
+        self.color_buttons_frame: str = "#A1C4D8"
         self.page.fonts = {"iphone": self.__assets_src + "fonts/sf.otf"}
         self.page.theme = ft.Theme(font_family="iphone")
 
@@ -58,36 +60,18 @@ class iPhone13:
         """
         Initialize dimensions based on the zoom level.
         """
-        if self.__zoom == 0:
-            self.__width = 247.86
-            self.__height = 488.43
-            self.__phone_bar_top = 10
-            self.__body_top = 27
-            self.__body_width = 55
-            self.__body_height = 95
-            self.__title_bar_padding = 5
-            self.__phone_bar_width = 55
-            self.__phone_bar_padding = 15
-            self.__phone_bar_height = 17
-            self.__body_padding_left = 2
-            self.__body_padding_right = 0
-            self.__body_padding_bottom = 0
-            self.page.window.width = self.__width
-            self.page.window.height = self.__height
+        if 0.5 < self.__zoom < 3:
+            self.__height = 642.752 * self.__zoom
+            self.__width = 311.3055 * self.__zoom
         else:
-            self.__height = 670
-            self.__width = 340
-            self.__phone_bar_top = 15
-            self.__body_top = 40
-            self.__body_width = 60
-            self.__body_height = 110
-            self.__title_bar_padding = 20
-            self.__phone_bar_width = 60
-            self.__phone_bar_padding = 25
-            self.__phone_bar_height = 25
-            self.__body_padding_left = 7
-            self.__body_padding_right = 2
-            self.__body_padding_bottom = 2
+            self.__height = 642.752
+            self.__width = 311.3055
+
+        self.__title_bar_padding = 10
+        self.__phone_bar_padding = 30
+        self.__body_padding_left = 12
+        self.__body_padding_right = 12
+        self.__body_padding_bottom = 12
 
     def __body(self):
         """
@@ -96,25 +80,13 @@ class iPhone13:
         Returns:
             ft.Container: The body container.
         """
-        return ft.Container(
-            bgcolor="white",
-            height=self.__height - self.__body_height,
-            width=self.__width - self.__body_width,
-            border_radius=ft.border_radius.only(bottom_left=20, bottom_right=20),
-            top=self.__body_top,
-            content=ft.Pagelet(
-                content=self.body,
-                appbar=self.appBar if isinstance(self.appBar, ft.AppBar) else None,
-                floating_action_button=(
-                    self.floating_action_button
-                    if isinstance(self.floating_action_button, ft.FloatingActionButton)
-                    else None
-                ),
-            ),
-            padding=ft.padding.only(
-                left=self.__body_padding_left,
-                right=self.__body_padding_right,
-                bottom=self.__body_padding_bottom,
+        return ft.Pagelet(
+            content=self.body,
+            appbar=self.appBar if isinstance(self.appBar, ft.AppBar) else None,
+            floating_action_button=(
+                self.floating_action_button
+                if isinstance(self.floating_action_button, ft.FloatingActionButton)
+                else None
             ),
         )
 
@@ -130,6 +102,7 @@ class iPhone13:
                 bgcolor="white",
                 height=50,
                 border_radius=10,
+                width=self.__width * 1.05,
                 padding=ft.padding.symmetric(horizontal=self.__title_bar_padding),
                 content=ft.Row(
                     controls=[
@@ -180,82 +153,10 @@ class iPhone13:
                             tight=True,
                             alignment="center",
                         ),
-                        ft.Row(
-                            controls=[
-                                ft.IconButton(
-                                    icon=ft.Icons.ADD_CIRCLE,
-                                    icon_color="blue",
-                                    icon_size=25,
-                                    tooltip="Zoom in",
-                                    on_click=self.__zoom_in,
-                                ),
-                                ft.IconButton(
-                                    icon=ft.Icons.REMOVE_CIRCLE,
-                                    icon_color="blue",
-                                    icon_size=25,
-                                    tooltip="Zoom out",
-                                    on_click=self.__zoom_out,
-                                ),
-                            ],
-                            spacing=3,
-                            tight=True,
-                            alignment="end",
-                            expand=True,
-                        ),
                     ],
                 ),
             )
         )
-
-    def __zoom_out(self, e):
-        """
-        Zoom out to smaller dimensions.
-
-        Args:
-            e: The event object.
-        """
-        self.__width = 247.86
-        self.__height = 488.43
-        self.__phone_bar_top = 10
-        self.__body_top = 27
-        self.__body_width = 55
-        self.__body_height = 95
-        self.__title_bar_padding = 5
-        self.__phone_bar_width = 55
-        self.__phone_bar_padding = 15
-        self.__phone_bar_height = 17
-        self.__body_padding_left = 2
-        self.__body_padding_right = 0
-        self.__body_padding_bottom = 0
-        self.page.window.width = self.__width
-        self.page.window.height = self.__height
-
-        self.run()
-
-    def __zoom_in(self, e):
-        """
-        Zoom in to larger dimensions.
-
-        Args:
-            e: The event object.
-        """
-        self.__height = 670
-        self.__width = 340
-        self.__phone_bar_top = 15
-        self.__body_top = 40
-        self.__body_width = 60
-        self.__body_height = 110
-        self.__title_bar_padding = 20
-        self.__phone_bar_width = 60
-        self.__phone_bar_padding = 25
-        self.__phone_bar_height = 25
-        self.__body_padding_left = 7
-        self.__body_padding_right = 2
-        self.__body_padding_bottom = 2
-        self.page.window.width = self.__width
-        self.page.window.height = self.__height
-
-        self.run()
 
     def __minimize(self, e):
         """
@@ -276,28 +177,33 @@ class iPhone13:
         """
         return ft.Container(
             bgcolor=self.bg_color_title_bar,
-            height=self.__phone_bar_height,
-            width=self.__width - self.__phone_bar_width,
-            top=self.__phone_bar_top,
-            border_radius=ft.border_radius.only(top_left=200, top_right=200),
-            padding=ft.padding.symmetric(horizontal=self.__phone_bar_padding),
+            alignment=ft.alignment.center,
+            padding=ft.padding.only(
+                left=self.__phone_bar_padding, top=10, right=self.__phone_bar_padding
+            ),
+            height=35,
             content=ft.Row(
+                alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                 controls=[
-                    ft.Text("6:30", color=self.color_title_bar),
+                    ft.Text("6:30", color=self.color_title_bar, size=12),
                     ft.Row(
+                        alignment=ft.MainAxisAlignment.CENTER,
+                        vertical_alignment=ft.CrossAxisAlignment.CENTER,
                         controls=[
-                            ft.Icon(ft.Icons.WIFI, color=self.color_title_bar, size=15),
                             ft.Icon(
-                                ft.Icons.BATTERY_STD,
+                                name=ft.Icons.WIFI,
                                 color=self.color_title_bar,
-                                rotate=ft.Rotate(3.14 / 2),
-                                size=15,
+                                size=14,
+                            ),
+                            ft.Icon(
+                                name=ft.Icons.BATTERY_FULL,
+                                color=self.color_title_bar,
+                                size=14,
+                                rotate=3.14 / 2,
                             ),
                         ],
-                        spacing=4,
                     ),
                 ],
-                alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
             ),
         )
 
@@ -308,20 +214,124 @@ class iPhone13:
         Returns:
             ft.Stack: The frame stack.
         """
-
         return ft.Stack(
+            alignment=ft.alignment.top_center,
             controls=[
-                self.__body(),
-                self.__phone_bar(),
-                ft.TransparentPointer(
-                    content=ft.Image(
-                        src=self.__assets_src + "images/iphone13.png",
-                        height=self.__height - 60,
-                        width=self.__width,
+                ft.Container(
+                    height=self.__height,
+                    width=self.__width,
+                    bgcolor="white",
+                    border_radius=ft.border_radius.all(40),
+                    clip_behavior=ft.ClipBehavior.ANTI_ALIAS,
+                    alignment=ft.alignment.center,
+                    content=ft.Stack(
+                        expand=True,
+                        alignment=ft.alignment.top_center,
+                        controls=[
+                            ft.Container(
+                                bgcolor="white",
+                                height=self.__height - 35,
+                                width=self.__width,
+                                padding=ft.padding.only(
+                                    left=self.__body_padding_left,
+                                    right=self.__body_padding_right,
+                                    bottom=self.__body_padding_bottom,
+                                    top=0,
+                                ),
+                                bottom=0,
+                                content=self.__body(),
+                            ),
+                            self.__phone_bar(),
+                            ft.TransparentPointer(
+                                ft.Container(
+                                    bgcolor="transparent",
+                                    border=ft.border.all(
+                                        width=13,
+                                        color="black",
+                                    ),
+                                    border_radius=ft.border_radius.all(40),
+                                )
+                            ),
+                            ft.TransparentPointer(
+                                ft.Container(
+                                    width=self.__width * 0.35,
+                                    height=35,
+                                    bgcolor="black",
+                                    expand=False,
+                                    border_radius=ft.border_radius.only(
+                                        bottom_left=15, bottom_right=15
+                                    ),
+                                    alignment=ft.alignment.center_left,
+                                    padding=ft.padding.only(left=10),
+                                    content=ft.Container(
+                                        height=10,
+                                        width=10,
+                                        border_radius=ft.border_radius.all(20),
+                                        margin=ft.margin.only(top=8),
+                                        gradient=ft.RadialGradient(
+                                            colors=["#FFFFFF", "#91AEFD", "#001A49"],
+                                            focal=ft.alignment.center_left,
+                                        ),
+                                    ),
+                                )
+                            ),
+                            ft.Container(
+                                width=self.__width * 0.2,
+                                height=2,
+                                bgcolor="#292929",
+                                border_radius=ft.border_radius.all(10),
+                                top=7,
+                            ),
+                            ft.TransparentPointer(
+                                ft.Container(
+                                    bgcolor="transparent",
+                                    border=ft.border.all(
+                                        width=4,
+                                        color=self.color_frame,
+                                    ),
+                                    border_radius=ft.border_radius.all(40),
+                                )
+                            ),
+                        ],
                     ),
                 ),
+                ft.Container(
+                    bgcolor=self.color_buttons_frame,
+                    height=75,
+                    width=3,
+                    border_radius=ft.border_radius.only(top_right=50, bottom_right=50),
+                    right=0,
+                    top=self.__height * 0.31,
+                    offset=ft.Offset(1, 0),
+                ),
+                ft.Container(
+                    bgcolor=self.color_buttons_frame,
+                    height=25,
+                    width=3,
+                    border_radius=ft.border_radius.only(top_left=50, bottom_left=50),
+                    left=0,
+                    top=self.__height * 0.19,
+                    offset=ft.Offset(-1, 0),
+                ),
+                ft.Container(
+                    bgcolor=self.color_buttons_frame,
+                    height=50,
+                    width=3,
+                    border_radius=ft.border_radius.only(top_left=50, bottom_left=50),
+                    left=0,
+                    top=self.__height * 0.27,
+                    offset=ft.Offset(-1, 0),
+                ),
+                ft.Container(
+                    bgcolor=self.color_buttons_frame,
+                    height=50,
+                    width=3,
+                    border_radius=ft.border_radius.only(top_left=50, bottom_left=50),
+                    left=0,
+                    top=self.__height * 0.37,
+                    offset=ft.Offset(-1, 0),
+                ),
             ],
-            alignment=ft.alignment.top_center,
         )
 
     def run(self):
