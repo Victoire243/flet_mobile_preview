@@ -1,22 +1,22 @@
-# flet-phone-preview
+# flet-mobile-preview
 
-`flet-phone-preview` is a Python package that provides a preview of an iPhone 13 interface using the Flet framework. This package allows you to simulate the appearance of an iPhone 13 on your desktop, making it easier to design and test mobile interfaces.
+`flet-mobile-preview` is a Python package that provides a preview of an iPhone 13 interface using the Flet framework. This package allows you to simulate the appearance of an iPhone 13 on your desktop, making it easier to design and test mobile interfaces.
 
 ## Installation
 
 You can install the package using pip:
 
 ```bash
-pip install flet-phone-preview
+pip install flet-mobile-preview
 ```
 
 ## Usage
 
-Here is an example of how to use the `flet-phone-preview` package:
+Here is an example of how to use the `flet-mobile-preview` package:
 
 ```python
 import flet as ft
-from flet_phone_preview.iPhone import iPhone13
+from flet_mobile_preview.iPhone import iPhone13
 
 def main(page: ft.Page):
     def change_text_color(e):
@@ -67,7 +67,7 @@ You can customize the colors of the title bar and phone bar by setting the `bg_c
 
 ```python
 import flet as ft
-from flet_phone_preview.iPhone import iPhone13
+from flet_mobile_preview.iPhone import iPhone13
 
 def main(page: ft.Page):
     phone = iPhone13(page=page, zoom=1)
@@ -86,7 +86,7 @@ You can also customize the frame color and the buttons of the frame color by set
 
 ```python
 import flet as ft
-from flet_phone_preview.iPhone import iPhone13
+from flet_mobile_preview.iPhone import iPhone13
 
 def main(page: ft.Page):
     phone = iPhone13(page=page, zoom=1)
@@ -105,7 +105,7 @@ You can add a floating action button and an app bar to the iPhone preview. Here 
 
 ```python
 import flet as ft
-from flet_phone_preview.iPhone import iPhone13
+from flet_mobile_preview.iPhone import iPhone13
 
 def main(page: ft.Page):
     def change_text_color(e):
